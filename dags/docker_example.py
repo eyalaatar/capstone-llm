@@ -18,7 +18,7 @@ default_args = {
 with DAG(
     "docker_operator_dag",
     default_args=default_args,
-    schedule_interval="5 * * * *",
+    schedule="5 * * * *",
     catchup=False,
 ) as dag:
     start_dag = EmptyOperator(task_id="start_dag")
@@ -32,7 +32,7 @@ with DAG(
         image="docker_image_task",
         container_name="task___command_sleep",
         api_version="auto",
-        auto_remove=True,
+        auto_remove="force",
         command="/bin/sleep 30",
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
@@ -43,7 +43,7 @@ with DAG(
         image="docker_image_task",
         container_name="task___command_hello",
         api_version="auto",
-        auto_remove=True,
+        auto_remove="force",
         command="/bin/sleep 40",
         docker_url="unix://var/run/docker.sock",
         network_mode="bridge",
